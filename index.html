@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예쁜 날씨 앱 (API 없이)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        select, button {
+            padding: 12px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 220px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .weather-info {
+            margin-top: 30px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .loading {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .weather-info img {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        /* 반응형 디자인 */
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>예쁜 날씨 앱 (API 없이)</h1>
+        <div>
+            <select id="regionSelect">
+                <option value="서울">서울</option>
+                <option value="부산">부산</option>
+                <option value="대구">대구</option>
+                <option value="인천">인천</option>
+                <option value="광주">광주</option>
+                <!-- 필요에 따라 더 많은 지역 추가 -->
+            </select>
+            <button onclick="displayWeatherData()">날씨 정보 가져오기</button>
+        </div>
+
+        <div class="loading" id="loading" style="display:none;">정보를 불러오는 중...</div>
+
+        <div class="weather-info" id="weatherInfo"></div>
+    </div>
+
+    <script>
+        // 지역별 하드코딩된 날씨 데이터
+        const weatherData = {
+            "서울": {
+                temperature: "5°C",
+                condition: "맑음",
+                icon: "☀️",
+                humidity: "60%",
+                wind: "5m/s"
+            },
+            "부산": {
+                temperature: "10°C",
+                condition: "구름 조금",
+                icon: "🌤",
+                humidity: "65%",
+                wind: "3m/s"
+            },
+            "대구": {
+                temperature: "8°C",
+                condition: "비",
+                icon: "🌧",
+                humidity: "80%",
+                wind: "7m/s"
+            },
+            "인천": {
+                temperature: "6°C",
+                condition: "맑음",
+                icon: "☀️",
+                humidity: "55%",
+                wind: "4m/s"
+            },
+            "광주": {
+                temperature: "12°C",
+                condition: "맑음",
+                icon: "☀️",
+                humidity: "50%",
+                wind: "4.5m/s"
+            }
+        };
+
+        // 선택된 지역에 따른 날씨 정보 표시 함수
+        function displayWeatherData() {
+            const region = document.getElementById('regionSelect').value;
+            const loadingElement = document.getElementById('loading');
+            const weatherInfoElement = document.getElementById('weatherInfo');
+
+            loadingElement.style.display = 'block';
+            weatherInfoElement.innerHTML = '';  // 기존 정보 초기화
+
+            // 지역에 해당하는 날씨 정보 가져오기
+            const weather = weatherData[region];
+
+            // 날씨 정보 표시
+            setTimeout(() => {  // 로딩 효과를 주기 위해 딜레이 추가
+                loadingElement.style.display = 'none';
+
+                const weatherHtml = `
+                    <h2>${region} 날씨</h2>
+                    <p>온도: ${weather.temperature}</p>
+                    <p>상태: ${weather.condition} ${weather.icon}</p>
+                    <p>습도: ${weather.humidity}</p>
+                    <p>바람: ${weather.wind}</p>
+                `;
+
+                weatherInfoElement.innerHTML = weatherHtml;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
